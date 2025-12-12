@@ -42,8 +42,7 @@
 
 <!--Totals-->
 <!--Filter-->
-<AuthorizeView Roles="admin">
-	<Authorized>
+
 		<dl class="row">
 			<dt class="col-sm-2">Дата начала</dt>
 			<dd class="col-sm-10">
@@ -53,27 +52,43 @@
 			<dd class="col-sm-10">
 				<InputDate id="date" Type="InputDateType.DateTimeLocal" @bind-Value="FilterEndDate" class="form-control" />
 			</dd>
-			<dt class="col-sm-2">Пользователь</dt>
-			<dd class="col-sm-10">
-				<InputSelect @bind-Value="FilterUserId" class="form-select">
-					<option value="" selected>-</option>
-					@foreach (var user in Users)
-					{
-						<option value="@user.Id">@user.UserName</option>
-					}
-				</InputSelect>
-			</dd>
-
-					<dt class="col-sm-2">Город</dt>
+			<AuthorizeView Roles="admin">
+				<Authorized>
+				<dt class="col-sm-2">Пользователь</dt>
+				<dd class="col-sm-10">
+					<InputSelect @bind-Value="FilterUserId" class="form-select">
+						<option value="" selected>-</option>
+						@foreach (var user in Users)
+						{
+							<option value="@user.Id">@user.UserName</option>
+						}
+					</InputSelect>
+				</dd>
+				</Authorized>
+				<NotAuthorized>
+					<dt class="col-sm-2">Пользователь</dt>
 					<dd class="col-sm-10">
-						<InputSelect @bind-Value="FilterCity" class="form-select">
+						<InputSelect @bind-Value="FilterUserId" disabled class="form-select">
 							<option value="" selected>-</option>
-							@foreach (var city in this.Cities)
+							@foreach (var user in Users)
 							{
-								<option value="@city">@city</option>
+								<option value="@user.Id">@user.UserName</option>
 							}
 						</InputSelect>
 					</dd>
+				</NotAuthorized>
+			</AuthorizeView>
+
+			<dt class="col-sm-2">Город</dt>
+			<dd class="col-sm-10">
+				<InputSelect @bind-Value="FilterCity" class="form-select">
+					<option value="" selected>-</option>
+					@foreach (var city in this.Cities)
+					{
+						<option value="@city">@city</option>
+					}
+				</InputSelect>
+			</dd>
 			<dt class="col-sm-2">Отделение</dt>
 			<dd class="col-sm-10">
 				<InputSelect @bind-Value="PlaceId" class="form-select">
@@ -85,8 +100,7 @@
 				</InputSelect>
 			</dd>
 		</dl>
-	</Authorized>
-</AuthorizeView>
+
 
 
 <div class="row">
@@ -244,6 +258,8 @@
 		{
 			OrdersData = context.Orders
 				.Where(x => x.UserId == user.Id && x.DateCreate > DateTime.Today);
+
+			this.FilterUserId = user.Id;
 		}
 
 	}

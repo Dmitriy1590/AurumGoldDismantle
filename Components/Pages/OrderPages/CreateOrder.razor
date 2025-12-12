@@ -273,7 +273,7 @@
         this.Users = UserManager.Users.ToList();
 
         using var context = DbFactory.CreateDbContext();
-        this.Places = context.Places.ToList();
+        this.Places = context.Places.OrderBy(x => x.Name).ToList();
 
         var metals = context.MetalTypes.ToList();
         var productTypes = context.ProductTypes.ToList();
@@ -347,6 +347,8 @@
                 WeightClean = newItem.WeightClean,
                 WeightDirty = newItem.WeightDirty,
                 Cost = newItem.Cost,
+                MerchandiserWeightClean = newItem.MerchandiserWeightClean,
+                MerchandiserWeightDirty = newItem.MerchandiserWeightDirty,
             });
         }
 
@@ -432,6 +434,8 @@
         orderItem.WeightClean = orderItemModel.WeightClean;
         orderItem.WeightDirty = orderItemModel.WeightDirty;
         orderItem.Cost = orderItemModel.Cost;
+        orderItem.MerchandiserWeightClean = orderItemModel.MerchandiserWeightClean;
+        orderItem.MerchandiserWeightDirty = orderItemModel.MerchandiserWeightDirty;
     }
 
     private async Task HideModal(OrderItemViewModel orderItem)
@@ -451,6 +455,8 @@
                 WeightDirty = orderItem.WeightDirty,
                 DefaultMetalFiness = orderItem.DefaultMetalFiness,
                 Cost = orderItem.Cost,
+                MerchandiserWeightClean = orderItem.MerchandiserWeightClean,
+                MerchandiserWeightDirty = orderItem.MerchandiserWeightDirty,
             };
 
 

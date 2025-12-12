@@ -18,6 +18,10 @@ namespace BlazorGoldenZebra.Models.ViewModels
 
         public decimal? WeightClean { get; set; }
 
+        public decimal? MerchandiserWeightDirty { get; set; }
+
+        public decimal? MerchandiserWeightClean { get; set; }
+
         public int Fineness { get; set; }
 
         [DisplayName("Металл")]
@@ -54,6 +58,8 @@ namespace BlazorGoldenZebra.Models.ViewModels
             this.ProductType = orderItem.ProductType;
             this.OrderId = orderItem.OrderId;
             this.Cost = orderItem.Cost;
+            this.MerchandiserWeightClean = orderItem.MerchandiserWeightClean;
+            this.MerchandiserWeightDirty = orderItem.MerchandiserWeightDirty;
         }
     }
 }

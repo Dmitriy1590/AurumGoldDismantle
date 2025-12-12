@@ -133,6 +133,7 @@ try
 
         var context = serviceScope.ServiceProvider.GetRequiredService<GoldenZebraSecurityContext>();
         context.Database.EnsureCreated();
+        ApplyMigrations(app);
 
         Console.WriteLine($"{DateTime.Now} Database.EnsureCreated End");
     }
@@ -173,4 +174,25 @@ catch (Exception ex)
     Console.WriteLine(ex.ToString());
 
     throw ex;
+}
+
+static void ApplyMigrations(WebApplication app)
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<GoldenZebraSecurityContext>();
+
+        // Check and apply pending migrations
+        var pendingMigrations = dbContext.Database.GetPendingMigrations();
+        if (pendingMigrations.Any())
+        {
+            Console.WriteLine("Applying pending migrations...");
+            dbContext.Database.Migrate();
+            Console.WriteLine("Migrations applied successfully.");
+        }
+        else
+        {
+            Console.WriteLine("No pending migrations found.");
+        }
+    }
 }

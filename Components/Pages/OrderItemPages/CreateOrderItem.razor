@@ -10,49 +10,115 @@
 <PageTitle>Create</PageTitle>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <EditForm method="post" Model="OrderItem" OnValidSubmit="AddOrderItem" FormName="create" Enhance>
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert"/>
-            <div class="mb-3">
-                <label for="metaltype" class="form-label">Металл:</label>
-                <InputSelect @bind-Value="OrderItem.MetalType" class="form-select">
-                    @foreach (var metalType in MetalTypes)
-                    {
-                        <option value="@metalType.Id">@metalType.Name</option>
-                    }
-                </InputSelect>
-            </div>        
-            <div class="mb-3">
-                <label for="producttype" class="form-label">Тип:</label> 
-                <InputSelect @bind-Value="OrderItem.ProductType" class="form-select">
-                    @foreach (var productType in ProductTypes)
-                    {
-                        <option value="@productType.Id">@productType.Name</option>
-                    }
-                </InputSelect>
-            </div>        
-            <div class="mb-3">
-                <label for="weightdirty" class="form-label">Вес грязный:</label> 
-                <InputNumber id="weightdirty" @bind-Value="OrderItem.WeightDirty" class="form-control" /> 
-                <ValidationMessage For="() => OrderItem.WeightDirty" class="text-danger" /> 
-            </div>        
-            <div class="mb-3">
-                <label for="weightclean" class="form-label">Вес чистый:</label> 
-                <InputNumber id="weightclean" @bind-Value="OrderItem.WeightClean" class="form-control"  /> 
-                <ValidationMessage For="() => OrderItem.WeightClean" class="text-danger" /> 
-            </div>        
-            <div class="mb-3">
-                <label for="fineness" class="form-label">Проба:</label> 
-                <InputNumber id="fineness" @bind-Value="OrderItem.Fineness" class="form-control" /> 
-                <ValidationMessage For="() => OrderItem.Fineness" class="text-danger" /> 
-            </div>        
-            <div class="mb-3">
-                <label for="cost" class="form-label">Стоимость:</label>
-                <InputNumber id="cost" @bind-Value="OrderItem.Cost" class="form-control" />
-                <ValidationMessage For="() => OrderItem.Cost" class="text-danger" />
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="metaltype" class="form-label">Металл:</label>
+                    <div class="input-group input-group-sm mb-3">
+                        <i class="bi bi-minecart"></i>
+                        &nbsp;
+                        <InputSelect @bind-Value="OrderItem.MetalType" class="form-select">
+                            @foreach (var metalType in MetalTypes)
+                            {
+                                <option value="@metalType.Id">@metalType.Name</option>
+                            }
+                        </InputSelect>
+                    </div>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Добавить</button>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="producttype" class="form-label">Тип:</label>
+                    <div class="input-group input-group-sm mb-3">
+                        <i class="bi bi-list-ol"></i>
+                        &nbsp;
+                        <InputSelect @bind-Value="OrderItem.ProductType" class="form-select">
+                            @foreach (var productType in ProductTypes)
+                            {
+                                <option value="@productType.Id">@productType.Name</option>
+                            }
+                        </InputSelect>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="weightdirty" class="form-label">Вес грязный:</label>
+                </div>
+                <div class="col-md-6">
+                    <label for="weightdirty" class="form-label">Вес грязный товаровед:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group input-group-sm mb-3">
+                        <i class="bi bi-trash3 dirty"></i>
+                        &nbsp;
+                        <InputNumber id="weightdirty" @bind-Value="OrderItem.WeightDirty" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group input-group-sm mb-3">
+                        <i class="bi bi-trash3 dirty"></i><i class="bi bi-person-standing dirty"></i>
+                        &nbsp;
+                        <InputNumber id="weightdirty" @bind-Value="OrderItem.MerchandiserWeightDirty" class="form-control" />
+                    </div>
+                </div>
+                <ValidationMessage For="() => OrderItem.WeightDirty" class="text-danger" />
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="weightdirty" class="form-label">Вес чистый:</label>
+                </div>
+                <div class="col-md-6">
+                    <label for="weightdirty" class="form-label">Вес чистый товаровед:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group input-group-sm mb-3">
+                        <i class="bi bi-stars clean"></i>
+                        &nbsp;
+                        <InputNumber id="weightdirty" @bind-Value="OrderItem.WeightClean" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group input-group-sm mb-3">
+                        <i class="bi bi-stars clean"></i><i class="bi bi-person-standing clean"></i>
+                        &nbsp;
+                        <InputNumber id="weightdirty" @bind-Value="OrderItem.MerchandiserWeightClean" class="form-control" />
+                    </div>
+                </div>
+                <ValidationMessage For="() => OrderItem.WeightClean" class="text-danger" />
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="fineness" class="form-label">Проба:</label>
+                    <div class="input-group input-group-sm mb-3">
+                        <i class="bi bi-pie-chart-fill"></i>
+                        &nbsp;
+                        <InputNumber id="fineness" @bind-Value="OrderItem.Fineness" class="form-control" /> 
+                    </div>
+                    <ValidationMessage For="() => OrderItem.Fineness" class="text-danger" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="cost" class="form-label">Стоимость:</label>
+                    <div class="input-group input-group-sm mb-3">
+                        <i class="bi bi-cash-coin"></i>
+                        &nbsp;
+                        <InputNumber id="cost" @bind-Value="OrderItem.Cost" class="form-control" />
+                    </div>
+                    <ValidationMessage For="() => OrderItem.Cost" class="text-danger" />
+                </div>
+            </div>
+            <div class="row">
+                <button type="submit" class="btn btn-primary">Добавить</button>
+            </div>
         </EditForm>
     </div>
 </div>
