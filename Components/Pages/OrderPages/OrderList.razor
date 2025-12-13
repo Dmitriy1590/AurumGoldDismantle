@@ -38,37 +38,26 @@
 <PageTitle>Пакеты</PageTitle>
 <div class="box-container">
 	<div class="filter-section">
-<h1>Пакеты</h1>
+	<h3>Пакеты</h3>
 
-<!--Totals-->
-<!--Filter-->
-
-		<dl class="row">
-			<dt class="col-sm-2">Дата начала</dt>
-			<dd class="col-sm-10">
-				<InputDate id="date" Type="InputDateType.DateTimeLocal" @bind-Value="FilterStartDate" class="form-control" />
-			</dd>
-			<dt class="col-sm-2">Дата конца</dt>
-			<dd class="col-sm-10">
-				<InputDate id="date" Type="InputDateType.DateTimeLocal" @bind-Value="FilterEndDate" class="form-control" />
-			</dd>
-			<AuthorizeView Roles="admin">
-				<Authorized>
-				<dt class="col-sm-2">Пользователь</dt>
-				<dd class="col-sm-10">
-					<InputSelect @bind-Value="FilterUserId" class="form-select">
-						<option value="" selected>-</option>
-						@foreach (var user in Users)
-						{
-							<option value="@user.Id">@user.UserName</option>
-						}
-					</InputSelect>
+	<!--Totals-->
+	<!--Filter-->
+	<div class="row">
+		<div class="col-md-3">
+			<dl class="row">
+				<dt class="col-sm-4">Дата начала</dt>
+				<dd class="col-sm-8">
+						<InputDate id="date" Type="InputDateType.DateTimeLocal" @bind-Value="FilterStartDate" class="form-control form-control-sm" />
 				</dd>
-				</Authorized>
-				<NotAuthorized>
-					<dt class="col-sm-2">Пользователь</dt>
-					<dd class="col-sm-10">
-						<InputSelect @bind-Value="FilterUserId" disabled class="form-select">
+				<dt class="col-sm-4">Дата конца</dt>
+				<dd class="col-sm-8">
+						<InputDate id="date" Type="InputDateType.DateTimeLocal" @bind-Value="FilterEndDate" class="form-control form-control-sm" />
+				</dd>
+				<AuthorizeView Roles="admin">
+					<Authorized>
+					<dt class="col-sm-4">Пользователь</dt>
+					<dd class="col-sm-8">
+								<InputSelect @bind-Value="FilterUserId" class="form-select form-select-sm">
 							<option value="" selected>-</option>
 							@foreach (var user in Users)
 							{
@@ -76,75 +65,112 @@
 							}
 						</InputSelect>
 					</dd>
-				</NotAuthorized>
-			</AuthorizeView>
+					</Authorized>
+					<NotAuthorized>
+						<dt class="col-sm-4">Пользователь</dt>
+						<dd class="col-sm-8">
+								<InputSelect @bind-Value="FilterUserId" disabled class="form-select form-select-sm">
+								<option value="" selected>-</option>
+								@foreach (var user in Users)
+								{
+									<option value="@user.Id">@user.UserName</option>
+								}
+							</InputSelect>
+						</dd>
+					</NotAuthorized>
+				</AuthorizeView>
 
-			<dt class="col-sm-2">Город</dt>
-			<dd class="col-sm-10">
-				<InputSelect @bind-Value="FilterCity" class="form-select">
-					<option value="" selected>-</option>
-					@foreach (var city in this.Cities)
+				<dt class="col-sm-4">Город</dt>
+				<dd class="col-sm-8">
+						<InputSelect @bind-Value="FilterCity" class="form-select form-select-sm">
+						<option value="" selected>-</option>
+						@foreach (var city in this.Cities)
+						{
+							<option value="@city">@city</option>
+						}
+					</InputSelect>
+				</dd>
+				<dt class="col-sm-4">Отделение</dt>
+				<dd class="col-sm-8">
+						<InputSelect @bind-Value="PlaceId" class="form-select form-select-sm">
+						<option value="" selected>-</option>
+						@foreach (var place in Places)
+						{
+							<option value="@place.Id">@place.Name</option>
+						}
+					</InputSelect>
+				</dd>
+			</dl>
+		</div>
+
+			<div class="col-md-9">
+				<div class="row">
+					@foreach (var metalType in this.MetalTypes)
 					{
-						<option value="@city">@city</option>
+						<div title="@metalType.Name" class="row col-md-2 metal-block" style="background-color: @(metalType.Color)3d">
+							<div class="col-md-3">
+										<span class="chemical-element" style="color: @metalType.Color">@metalType.ChemicalName</span>
+								@* @metalType.Name: *@
+							</div>
+							<div class="col-md-9 sum-cell">
+								@Decimal.Round(TotalMetals[metalType.Id], 2)
+							</div>
+						</div>
 					}
-				</InputSelect>
-			</dd>
-			<dt class="col-sm-2">Отделение</dt>
-			<dd class="col-sm-10">
-				<InputSelect @bind-Value="PlaceId" class="form-select">
-					<option value="" selected>-</option>
-					@foreach (var place in Places)
+				</div>
+				<div class="row">
+					@foreach (var metalType in this.MetalTypes)
 					{
-						<option value="@place.Id">@place.Name</option>
+						<div title="@metalType.Name товаровед" class="row col-md-2 metal-block" style="background-color: @(metalType.Color)3d">
+							<div class="col-md-3">
+								<span class="chemical-element" style="color: @metalType.Color">@metalType.ChemicalName<i class="bi bi-person-standing" /></span>
+								@* @metalType.Name: *@
+							</div>
+							<div class="col-md-9 sum-cell">
+								@Decimal.Round(TotalMetalsMerchandizer[metalType.Id], 2)
+							</div>
+						</div>
 					}
-				</InputSelect>
-			</dd>
-		</dl>
-
-
-
-<div class="row">
-	@foreach (var metalType in this.MetalTypes)
-	{
-		<div class="col-md-1">
-			@metalType.Name:
-		</div>
-		<div class="col-md-1">
-			@Decimal.Round(TotalMetals[metalType.Id], 2)
-		</div>
-	}
-</div>
-		<div class="row">
-			<div class="col-md-1">
-				Общ. вес изделий:
+				</div>
+				<div class="row">
+					<div class="row col-md-2 metal-block" title="Общ. вес изделий">
+						<div class="col-md-3">
+							<span class="smooth-icon"><i class="bi bi-speedometer"></i><i class="bi bi-gem"></i>:</span>
+						</div>
+						<div class="col-md-9 sum-cell">
+							@Data.Sum(o => MetalWorker.GetProductWeight(o) ?? 0)
+						</div>
+					</div>
+					<div class="row col-md-2 metal-block" title="Сумма лом">
+						<div class="col-md-3">
+							<span class="smooth-icon"><i class="bi bi-cash-coin"></i><i class="bi bi-hammer"></i>:</span>
+						</div>
+						<div class="col-md-9 sum-cell">
+							@Data.Sum(o => MetalWorker.GetScrapSum(o) ?? 0)
+						</div>
+					</div>
+					<div class="row col-md-2 metal-block" title="Сумма изделий">
+						<div class="col-md-3">
+							<span class="smooth-icon"><i class="bi bi-cash-coin"></i><i class="bi bi-gem"></i>:</span>
+						</div>
+						<div class="col-md-9 sum-cell">
+							@Data.Sum(o => MetalWorker.GetProductSum(o) ?? 0)
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class="col-md-1">
-				@Data.Sum(o => MetalWorker.GetProductWeight(o) ?? 0)
-			</div>
-			<div class="col-md-1">
-				Сумма лом:
-			</div>
-			<div class="col-md-1">
-				@Data.Sum(o => MetalWorker.GetScrapSum(o) ?? 0)
-			</div>
-			<div class="col-md-1">
-				Сумма изделий:
-			</div>
-			<div class="col-md-1">
-				@Data.Sum(o => MetalWorker.GetProductSum(o) ?? 0)
-			</div>
-		</div>
-
+	</div>
+	
 <!--<button class="btn btn-primary" @onclick="FilterOrders">Filter</button>-->
 
 <div class="row">
 	<p class="col-md-6">
-		<a class="btn btn-primary" href="orders/create?mode=create"><i class="bi bi-file-earmark-plus"></i> Создать пакет</a>
+		<a class="btn btn-primary btn-sm" href="orders/create?mode=create"><i class="bi bi-file-earmark-plus"></i> Создать пакет</a>
 	</p>
 	<p class="col-md-6">
 		<AuthorizeView Roles="admin">
 			<Authorized>
-				<Button @onclick="DownloadFile" class="btn btn-success float-end"><i class="bi bi-filetype-xls"></i> В Excel</Button>
+				<Button @onclick="DownloadFile" class="btn btn-success float-end btn-sm"><i class="bi bi-filetype-xls"></i> В Excel</Button>
 			</Authorized>
 		</AuthorizeView>
 	</p>
@@ -171,14 +197,38 @@
     {
         @if (columnDefinition.IsVisible)
         {
-            <PropertyColumn Property="@(order => GetPropertyValueScrapWeight(order, columnDefinition.PropertyName))"
-                            Title="@columnDefinition.Title" />
+			<TemplateColumn Context="order">
+						<HeaderTemplate>
+							@{
+								var metalType = MetalTypes.Single(x => x.Id == int.Parse(columnDefinition.PropertyName));
+							}
+							<span class="chemical-element" style="color: @metalType.Color">@metalType.ChemicalName</span>
+						</HeaderTemplate>
+						<ChildContent>
+							@{
+								var sum = @GetPropertyValueScrapWeight(order, columnDefinition.PropertyName);
+							}
+
+							<div class="weight-cell">@sum</div>
+							@{
+								var merchandizerSum = @GetPropertyValueScrapWeightMerchandizer(order, columnDefinition.PropertyName);
+								if (merchandizerSum.HasValue && merchandizerSum > 0 && merchandizerSum != sum)
+								{
+									<div class="weight-cell"><i class="bi bi-person-standing"></i>@GetPropertyValueScrapWeightMerchandizer(order, columnDefinition.PropertyName)</div>
+								}
+							}
+							
+						</ChildContent>
+			</TemplateColumn>
+							@* <PropertyColumn Property="@(order => GetPropertyValueScrapWeight(order, columnDefinition.PropertyName))" Title="@columnDefinition.Title">
+								
+							</PropertyColumn> *@
         }
     }
 
-				<PropertyColumn Property="order => MetalWorker.GetProductWeight(order)" Title="Общ. вес изделий" />
-				<PropertyColumn Property="order => MetalWorker.GetScrapSum(order)" Title="Сумма лом" />
-				<PropertyColumn Property="order => MetalWorker.GetProductSum(order)" Title="Сумма изделий" />
+			<PropertyColumn Property="order => MetalWorker.GetProductWeight(order)" Class="sum-cell" Title="Общ. вес изделий" />
+			<PropertyColumn Property="order => MetalWorker.GetScrapSum(order)" Class="sum-cell" Title="Сумма лом" />
+			<PropertyColumn Property="order => MetalWorker.GetProductSum(order)" Class="sum-cell" Title="Сумма изделий" />
 
     <PropertyColumn Property="order => order.OrderItems.Count" Title="Кол. позиций" Sortable="true" />
 
@@ -209,6 +259,7 @@
 
 	private int? PlaceId;
 	private Dictionary<int, decimal> TotalMetals;
+	private Dictionary<int, decimal> TotalMetalsMerchandizer;
 	private string[] Cities;
 
 	private QuickGrid<Order> myQuickGrid;
@@ -244,6 +295,10 @@
 			MetalTypes.Select(x => 
 				new KeyValuePair<int, decimal>(x.Id, 0)
 			).ToArray());
+		TotalMetalsMerchandizer = new Dictionary<int, decimal>(
+			MetalTypes.Select(x =>
+				new KeyValuePair<int, decimal>(x.Id, 0)
+			).ToArray());
 
 		this.AuthState = GetAuthenticationStateAsync.GetAuthenticationStateAsync().ConfigureAwait(true).GetAwaiter().GetResult();
 		var principal = this.AuthState.User;
@@ -257,7 +312,7 @@
 		else
 		{
 			OrdersData = context.Orders
-				.Where(x => x.UserId == user.Id && x.DateCreate > DateTime.Today);
+				.Where(x => x.UserId == user.Id /*&& x.DateCreate > DateTime.Today*/);
 
 			this.FilterUserId = user.Id;
 		}
@@ -305,6 +360,10 @@
 			MetalTypes.Select(m =>
 				new KeyValuePair<int, decimal>(m.Id, items.Sum(o => MetalWorker.GetScrapDefaultFinessWeight(o, m) ?? 0))).ToArray());
 
+		TotalMetalsMerchandizer = new Dictionary<int, decimal>(
+			MetalTypes.Select(m =>
+				new KeyValuePair<int, decimal>(m.Id, items.Sum(o => MetalWorker.GetScrapDefaultFinessWeightMerchandizer(o, m) ?? 0))).ToArray());
+
 		StateHasChanged();
 
 		return items;
@@ -341,7 +400,7 @@
 					var newColumn = new ColumnDefinition
                         {
                             PropertyName = metal.Id.ToString(),
-                            Title = metal.Name,
+						Title = metal.Name,
                             Format = "F2",
                             IsSortable = false
                         };
@@ -360,6 +419,16 @@
 		{
 			var metal = this.MetalTypes.Single(x => x.Id == metalTypeId);
 			return MetalWorker.GetScrapDefaultFinessWeight(order, metal);
+		}
+
+		return null;
+	}
+	private decimal? GetPropertyValueScrapWeightMerchandizer(Order order, string propertyName)
+	{
+		if (int.TryParse(propertyName, out var metalTypeId))
+		{
+			var metal = this.MetalTypes.Single(x => x.Id == metalTypeId);
+			return MetalWorker.GetScrapDefaultFinessWeightMerchandizer(order, metal);
 		}
 
 		return null;

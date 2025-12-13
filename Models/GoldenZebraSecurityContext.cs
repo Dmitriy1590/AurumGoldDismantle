@@ -142,10 +142,10 @@ public partial class GoldenZebraSecurityContext : DbContext
                 .HasMaxLength(256);
 
             entity.HasData(
-                    new MetalType() { Id = 1, Name = "Золото", DefaultFiness = 585 },
-                    new MetalType() { Id = 2, Name = "Серебро", DefaultFiness = 925 },
-                    new MetalType() { Id = 3, Name = "Платина", DefaultFiness = 950 },
-                    new MetalType() { Id = 4, Name = "Палладий", DefaultFiness = 999 }
+                    new MetalType() { Id = 1, Name = "Золото", DefaultFiness = 585, ChemicalName = "Au", Color =   "#FFD700" },
+                    new MetalType() { Id = 2, Name = "Серебро", DefaultFiness = 925, ChemicalName = "Ag", Color =  "#C0C0C0" },
+                    new MetalType() { Id = 3, Name = "Платина", DefaultFiness = 950, ChemicalName = "Pt", Color =  "#E5E4E2" },
+                    new MetalType() { Id = 4, Name = "Палладий", DefaultFiness = 999, ChemicalName = "Pd", Color = "#999B9B" }
                 );
         });
 

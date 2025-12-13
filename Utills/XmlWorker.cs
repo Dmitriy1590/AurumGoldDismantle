@@ -107,7 +107,7 @@ namespace BlazorGoldenZebra.Utills
                 var i = 2;
                 foreach (var order in orders)
                 {
-                    CreateDataRow(worksheet, i, order, metalTypes);
+                    CreateDataRowStat(worksheet, i, order, metalTypes);
                     i++;
                 }
 
@@ -130,33 +130,8 @@ namespace BlazorGoldenZebra.Utills
             row.Cell(i).Value = "Дата"; i++;
             row.Cell(i).Value = "Отделение"; i++;
             row.Cell(i).Value = "Пользователь"; i++;
-            
-            foreach (var metalType in metalTypes)
-            {
-                row.Cell(i).Value = $"Вес лом гр. {metalType.Name}"; i++;
-            }
-            foreach (var metalType in metalTypes)
-            {
-                row.Cell(i).Value = $"Вес лом чис. {metalType.Name}"; i++;
-            }
-            foreach (var metalType in metalTypes)
-            {
-                row.Cell(i).Value = $"Вес лом стд. пробы {metalType.Name}"; i++;
-            }
-            foreach (var metalType in metalTypes)
-            {
-                row.Cell(i).Value = $"Сумма лом {metalType.Name}"; i++;
-            }
-            foreach (var metalType in metalTypes)
-            {
-                row.Cell(i).Value = $"Вес изделий. {metalType.Name}"; i++;
-            }
-            foreach (var metalType in metalTypes)
-            {
-                row.Cell(i).Value = $"Сумма изделий {metalType.Name}"; i++;
-            }
 
-            row.Cell(i).Value = "Кол. позиций"; i++;
+            AddStandardColumns(row, ref i, metalTypes);
         }
 
         private static void CreateStatHeader(IXLWorksheet worksheet, List<MetalType> metalTypes)
@@ -166,9 +141,20 @@ namespace BlazorGoldenZebra.Utills
 
             row.Cell(i).Value = "Отделение"; i++;
 
+            AddStandardColumns(row, ref i, metalTypes);
+
+            row.Cell(i).Value = "Кол. пакетов"; i++;
+        }
+
+        private static void AddStandardColumns(IXLRow row, ref int i,  List<MetalType> metalTypes)
+        {
             foreach (var metalType in metalTypes)
             {
                 row.Cell(i).Value = $"Вес лом гр. {metalType.Name}"; i++;
+            }
+            foreach (var metalType in metalTypes)
+            {
+                row.Cell(i).Value = $"Вес лом гр. тов.вед. {metalType.Name}"; i++;
             }
             foreach (var metalType in metalTypes)
             {
@@ -176,7 +162,15 @@ namespace BlazorGoldenZebra.Utills
             }
             foreach (var metalType in metalTypes)
             {
+                row.Cell(i).Value = $"Вес лом чис. тов.вед. {metalType.Name}"; i++;
+            }
+            foreach (var metalType in metalTypes)
+            {
                 row.Cell(i).Value = $"Вес лом стд. пробы {metalType.Name}"; i++;
+            }
+            foreach (var metalType in metalTypes)
+            {
+                row.Cell(i).Value = $"Вес лом стд. пробы тов.вед. {metalType.Name}"; i++;
             }
             foreach (var metalType in metalTypes)
             {
@@ -184,7 +178,7 @@ namespace BlazorGoldenZebra.Utills
             }
             foreach (var metalType in metalTypes)
             {
-                row.Cell(i).Value = $"Вес изделий. {metalType.Name}"; i++;
+                row.Cell(i).Value = $"Вес изделий {metalType.Name}"; i++;
             }
             foreach (var metalType in metalTypes)
             {
@@ -192,7 +186,6 @@ namespace BlazorGoldenZebra.Utills
             }
 
             row.Cell(i).Value = "Кол. позиций"; i++;
-            row.Cell(i).Value = "Кол. пакетов"; i++;
         }
 
         private static void CreateDataRow(IXLWorksheet worksheet, int rowNumber, OrderExportModel orderExportModel, List<MetalType> metalTypes)
@@ -210,32 +203,47 @@ namespace BlazorGoldenZebra.Utills
 
         private static void CreateMetalCells(List<MetalType> metalTypes, List<OrderItemExportModel> orderItems, IXLRow row, ref int i)
         {
-            foreach (var metalType in metalTypes)
+            foreach (var metalType in metalTypes) // Вес лом гр.
             {
                 var metalOrderItems = GetItemsOfMetalType(orderItems, metalType.Id, ProductTypesEnum.Scrap);
                 CreateValueCell(metalType, row, i, metalOrderItems, (oi) => oi.WeightDirty); i++;
             }
-            foreach (var metalType in metalTypes)
+            foreach (var metalType in metalTypes) // Вес лом гр. тов.вед.
+            {
+                var metalOrderItems = GetItemsOfMetalType(orderItems, metalType.Id, ProductTypesEnum.Scrap);
+                CreateValueCell(metalType, row, i, metalOrderItems, (oi) => oi.MerchandiserWeightDirty); i++;
+            }
+            foreach (var metalType in metalTypes) // Вес лом чис.
             {
                 var metalOrderItems = GetItemsOfMetalType(orderItems, metalType.Id, ProductTypesEnum.Scrap);
                 CreateValueCell(metalType, row, i, metalOrderItems, (oi) => oi.WeightClean); i++;
             }
-            foreach (var metalType in metalTypes)
+            foreach (var metalType in metalTypes) // Вес лом чис. тов.вед.
+            {
+                var metalOrderItems = GetItemsOfMetalType(orderItems, metalType.Id, ProductTypesEnum.Scrap);
+                CreateValueCell(metalType, row, i, metalOrderItems, (oi) => oi.MerchandiserWeightClean); i++;
+            }
+            foreach (var metalType in metalTypes) // Вес лом стд. пробы
             {
                 var metalOrderItems = GetItemsOfMetalType(orderItems, metalType.Id, ProductTypesEnum.Scrap);
                 CreateValueCell(metalType, row, i, metalOrderItems, (oi) => oi.DefaultFinessWeight); i++;
             }
-            foreach (var metalType in metalTypes)
+            foreach (var metalType in metalTypes) // Вес лом стд. пробы тов.вед.
+            {
+                var metalOrderItems = GetItemsOfMetalType(orderItems, metalType.Id, ProductTypesEnum.Scrap);
+                CreateValueCell(metalType, row, i, metalOrderItems, (oi) => oi.DefaultFinessWeightMerchandiser); i++;
+            }
+            foreach (var metalType in metalTypes) // Сумма лом
             {
                 var metalOrderItems = GetItemsOfMetalType(orderItems, metalType.Id, ProductTypesEnum.Scrap);
                 CreateValueCell(metalType, row, i, metalOrderItems, (oi) => oi.Cost); i++;
             }
-            foreach (var metalType in metalTypes)
+            foreach (var metalType in metalTypes) // Вес изделий
             {
                 var metalOrderItems = GetItemsOfMetalType(orderItems, metalType.Id, ProductTypesEnum.Product);
                 CreateValueCell(metalType, row, i, metalOrderItems, (oi) => oi.WeightClean); i++;
             }
-            foreach (var metalType in metalTypes)
+            foreach (var metalType in metalTypes) // Сумма изделий
             {
                 var metalOrderItems = GetItemsOfMetalType(orderItems, metalType.Id, ProductTypesEnum.Product);
                 CreateValueCell(metalType, row, i, metalOrderItems, (oi) => oi.Cost); i++;
@@ -259,7 +267,7 @@ namespace BlazorGoldenZebra.Utills
             }
         }
 
-        private static void CreateDataRow(IXLWorksheet worksheet, int rowNumber, OrderStatisticsViewModel orderExportModel, List<MetalType> metalTypes)
+        private static void CreateDataRowStat(IXLWorksheet worksheet, int rowNumber, OrderStatisticsViewModel orderExportModel, List<MetalType> metalTypes)
         {
             var row = worksheet.Row(rowNumber);
             var i = 1;

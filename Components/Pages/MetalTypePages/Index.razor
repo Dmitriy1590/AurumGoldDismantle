@@ -17,6 +17,9 @@
 </p>
 
 <QuickGrid Class="table" Items="context.MetalTypes">
+    <TemplateColumn Context="metaltypeX">
+        <span class="chemical-element" style="color: @metaltypeX.Color">@metaltypeX.ChemicalName</span>
+    </TemplateColumn>
     <PropertyColumn Property="metaltype => metaltype.Name" Title="Название металла"/>
     <PropertyColumn Property="metaltype => metaltype.DefaultFiness" Title="Проба стандартная" />
 

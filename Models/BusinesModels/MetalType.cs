@@ -12,4 +12,8 @@ public partial class MetalType
     public string Name { get; set; }
 
     public int DefaultFiness { get; set; }
+
+    public string Color { get; set; }
+
+    public string ChemicalName { get; set; }
 }

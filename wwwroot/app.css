@@ -107,3 +107,47 @@ h1:focus {
 .dirty {
     color: saddlebrown;
 }
+
+.chemical-element {
+    -webkit-text-stroke: 1px rgb(0 0 0 / 38%);
+    font-size: larger;
+    font-family: fantasy;
+    display: flex;
+}
+
+.smooth-icon {
+    -webkit-text-stroke: 1px rgb(0 0 0 / 38%);
+    font-family: fantasy;
+    display: flex;
+}
+
+.col-sm-1,
+.col-sm-2,
+.col-sm-3,
+.col-sm-4,
+.col-sm-5,
+.col-sm-6,
+.col-sm-7,
+.col-sm-8,
+.col-sm-9,
+.col-sm-10,
+.col-sm-11,
+.col-sm-12 {
+    font-size: small;
+}
+
+.weight-cell,
+.sum-cell {
+    position: relative;
+    text-align: right;
+}
+.weight-cell .bi{
+    position: absolute;
+    right: -15px;
+}
+.metal-block {
+    margin-left: 0px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    margin-right: 0px !important;
+}

@@ -31,6 +31,22 @@ namespace BlazorGoldenZebra.Utills
             // Use reflection or a dictionary lookup to get the property value dynamically
             return metalDefaultFinessSum;
         }
+        public static decimal? GetScrapDefaultFinessWeightMerchandizer(Order order, MetalType metal)
+        {
+            var metalItems = order.OrderItems.Where(x => x.MetalType == metal.Id && x.ProductType == (int)ProductTypesEnum.Scrap);
+            var metalDefaultFinessSum = metalItems.Sum(x =>
+                MetalWorker.GetDefaultFinessWeight(x.MerchandiserWeightClean, x.Fineness, metal.DefaultFiness));
+
+            metalDefaultFinessSum = Decimal.Round(metalDefaultFinessSum, 2);
+
+            if (metalDefaultFinessSum == 0)
+            {
+                return null;
+            }
+
+            // Use reflection or a dictionary lookup to get the property value dynamically
+            return metalDefaultFinessSum;
+        }
 
         public static decimal? GetProductWeight(Order order)
         {

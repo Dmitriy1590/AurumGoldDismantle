@@ -250,7 +250,7 @@
     public string Mode { get; set; } = "create";
 
     [SupplyParameterFromQuery(Name = "id")]
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     [SupplyParameterFromForm]
     private OrderViewModel Order { get; set; } = new() 
@@ -258,8 +258,8 @@
         Date = DateTime.Now,
     };
 
-    private List<ApplicationUser> Users;
-    private List<Place> Places;
+    private List<ApplicationUser>? Users;
+    private List<Place>? Places;
 
     private Modal modal = default!;
 

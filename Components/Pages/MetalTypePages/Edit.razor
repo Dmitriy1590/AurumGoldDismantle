@@ -32,6 +32,16 @@ else
                     <InputNumber id="defaultfiness" @bind-Value="MetalType.DefaultFiness" class="form-control" />
                     <ValidationMessage For="() => MetalType.DefaultFiness" class="text-danger" />
                 </div>
+                <div class="mb-3">
+                    <label for="Chemicalname" class="form-label">ChemicalName:</label>
+                    <InputText id="chemicalname" @bind-Value="MetalType.ChemicalName" class="form-control" />
+                    <ValidationMessage For="() => MetalType.ChemicalName" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="color" class="form-label">Color:</label>
+                    <InputText id="color" @bind-Value="MetalType.Color" class="form-control" />
+                    <ValidationMessage For="() => MetalType.Color" class="text-danger" />
+                </div>
                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                     <a href="/metaltypes" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Назад</a>
                     <button type="submit" class="btn btn-warning"><i class="bi bi-pencil"></i> Сохранить</button>
